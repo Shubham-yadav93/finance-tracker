@@ -1,4 +1,5 @@
-const TransactionList = ({ transactions }) => {
+// src/components/TransactionList.js
+const TransactionList = ({ transactions, onRemoveTransaction }) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
       <h2 className="text-xl font-bold mb-4">Transactions</h2>
@@ -17,13 +18,21 @@ const TransactionList = ({ transactions }) => {
                   {transaction.date} | {transaction.time}
                 </p>
               </div>
-              <span
-                className={`px-3 py-1 rounded ${
-                  transaction.amount < 0 ? "bg-red-500" : "bg-green-500"
-                } text-white`}
-              >
-                ₹{transaction.amount}
-              </span>
+              <div className="flex items-center space-x-2">
+                <span
+                  className={`px-3 py-1 rounded ${
+                    transaction.amount < 0 ? "bg-red-500" : "bg-green-500"
+                  } text-white`}
+                >
+                  ₹{transaction.amount}
+                </span>
+                <button
+                  className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
+                  onClick={() => onRemoveTransaction(index)}
+                >
+                  Remove
+                </button>
+              </div>
             </li>
           ))
         )}

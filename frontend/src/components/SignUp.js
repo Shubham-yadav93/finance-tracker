@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 const SignUp = () => {
   const [name, setName] = useState("");
   const [income, setIncome] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -12,14 +13,18 @@ const SignUp = () => {
   const handleSignUp = (e) => {
     e.preventDefault();
 
-    if (!name || !income || !password) {
+    if (!name || !income || !email || !password) {
       alert("All fields are required!");
       return;
     }
 
-    const userData = { name, income: parseFloat(income), password };
+    const userData = { name, income: parseFloat(income), email, password };
+    // Save the registered user permanently
+    localStorage.setItem("registeredUser", JSON.stringify(userData));
+    // Log the user in (store in context and localStorage under "user")
     login(userData);
-    navigate("/dashboard"); // Redirect to Dashboard
+    // Redirect to Dashboard (Transaction page)
+    navigate("/dashboard");
   };
 
   return (
@@ -39,6 +44,13 @@ const SignUp = () => {
             placeholder="Income"
             value={income}
             onChange={(e) => setIncome(e.target.value)}
+            className="w-full p-2 border rounded"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full p-2 border rounded"
           />
           <input
